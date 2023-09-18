@@ -55,11 +55,9 @@ class PasswordManager:
     def __init__(self, m_password):
         self.__FILE_NAME = "pm.bin"
         self.quire_obj = Quires(self.__FILE_NAME, m_password)
+        
+        self.__passwords = {} if self.quire_obj.get_data() == "" else json.loads(self.quire_obj.get_data())
 
-        if self.quire_obj.get_data() == "":
-            self.__passwords = {}
-        else:
-            self.__passwords = json.loads(self.quire_obj.get_data())
 
     def get_all_pass(self):
         return self.__passwords

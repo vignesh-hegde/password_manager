@@ -2,8 +2,16 @@ from random import randint as ri
 import time
 import password_manager
 import display
+import pwinput
 
 cs = display.ClearScreen()
+
+def fetch_password(message, end = ""):
+    try:
+        p = pwinput.pwinput(prompt=message + end, mask='*')
+    except Exception as error:
+        return ""
+    return p
 
 def start_up_screen():
 
@@ -37,7 +45,8 @@ if __name__ == "__main__":
 
 
     try:
-        m_pass = input("Enter Master Password : ")
+        
+        m_pass = fetch_password("Enter Master Password : ")
         pm = password_manager.PasswordManager(m_pass)
         cs.clear()
 
@@ -75,7 +84,7 @@ if __name__ == "__main__":
 
         elif ch == '3':
             key = input("Enter New Site : ")
-            value = input("Enter Site Password : ")
+            value = fetch_password("Enter Site Password : ")
 
             if pm.add_new_entrie(key, value):
                 print("Succefully added.")
@@ -84,7 +93,7 @@ if __name__ == "__main__":
 
         elif ch == "4":
             key = input("Enter Site : ")
-            value = input("Enter Site Password")
+            value = fetch_password("Enter Site Password")
 
             if pm.update_entrie(key, value):
                 print("Succefully updated.")
@@ -106,8 +115,8 @@ if __name__ == "__main__":
             sure = input("ARE YOU SURE TO CONTINUE? [y/n] ").upper()
 
             if sure == 'Y':
-                mp_1 = input("ENTER NEW MASTER PASSWORD : ")
-                mp_2 = input("RE-ENTER NEW MASTER PASSWORD : ")
+                mp_1 = fetch_password("ENTER NEW MASTER PASSWORD : ")
+                mp_2 = fetch_password("RE-ENTER NEW MASTER PASSWORD : ")
 
                 if mp_1 == mp_2:
                     pm.update_password(mp_2)
