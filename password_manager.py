@@ -3,7 +3,7 @@ import hashlib
 import json
 
 
-class File_Enc_Dcr:
+class FileEncDcr:
     def __init__(self, file_name, password):
         self.file_name = file_name
         self.__fernet_obj = Fernet(hashlib.sha256(bytes(password, 'ascii')).hexdigest()[:43] + "=")
@@ -22,7 +22,7 @@ class File_Enc_Dcr:
 class Quires:
     def __init__(self, file_name, password, file_new=False):
 
-        self.file_obj = File_Enc_Dcr(file_name, password)
+        self.file_obj = FileEncDcr(file_name, password)
         self.__data = ""
 
         if file_new:
@@ -68,7 +68,7 @@ class PasswordManager:
             return self.__passwords[key]
         return None
 
-    def add_new_entrie(self, key, value):
+    def add_new_entry(self, key, value):
         key = key.upper().strip()
         if key in self.__passwords:
             return False
@@ -78,7 +78,7 @@ class PasswordManager:
         self.quire_obj.commit()
         return True
 
-    def update_entrie(self, key, value):
+    def update_entry(self, key, value):
         key = key.upper().strip()
         if key in self.__passwords:
             self.__passwords[key] = value
@@ -87,7 +87,7 @@ class PasswordManager:
             return True
         return False
 
-    def del_entrie(self, key):
+    def del_entry(self, key):
         key = key.upper().strip()
         if key in self.__passwords:
             del self.__passwords[key]
